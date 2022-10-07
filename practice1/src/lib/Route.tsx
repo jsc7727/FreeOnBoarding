@@ -1,11 +1,13 @@
 import React from "react";
-import useRouter from "../hooks/useRouter";
+
 type RouteProps = {
   path: string;
   exact?: boolean;
   component: React.ReactNode;
 };
-const Route = ({ path, exact, component }: RouteProps) => {
+
+const Route = ({ component }: RouteProps) => {
   return <>{component}</>;
 };
+
 export default Route;

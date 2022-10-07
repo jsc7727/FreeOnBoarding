@@ -1,11 +1,10 @@
 import Background from "../components/Background";
 import useRouter from "../hooks/useRouter";
-import useRouterContext from "../hooks/useRouterContext";
 
 const Root = () => {
-  const { handlePath } = useRouterContext();
+  const { push } = useRouter();
   const onClickHandler = () => {
-    handlePath("/about");
+    push("/about");
   };
   return (
     <Background>

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import produce from "immer";
 import useRouter from "../hooks/useRouter";
 
@@ -11,7 +11,7 @@ type RouterInitialType = {
   location: {
     hash: string;
     pathname: string;
-    search: string;
+    search: { [x: string]: string };
     state?: undefined;
   };
   match: Object;
@@ -19,7 +19,7 @@ type RouterInitialType = {
 
 type RouterContextType = {
   routerState: RouterInitialType;
-  handlePath: (path: string) => void;
+  handlePath: ({}: Location) => void;
 };
 
 const RouterInitial: RouterInitialType = {
@@ -27,33 +27,44 @@ const RouterInitial: RouterInitialType = {
   location: {
     hash: "",
     pathname: "",
-    search: "",
+    search: {},
   },
   match: {},
 };
 
 export const RouterContext = React.createContext<RouterContextType>({
   routerState: RouterInitial,
-  handlePath: (path: string) => {},
+  handlePath: () => {},
 });
 
 const Router = ({ children }: RouterPropsType) => {
   const [routerState, setRouterState] =
     React.useState<RouterInitialType>(RouterInitial);
 
-  const { push } = useRouter();
-
-  const handlePath = useCallback((path: string) => {
-    push(path);
+  const handlePath = useCallback(({ pathname, search }: Location) => {
     setRouterState(
       produce((draft) => {
         const location = draft.location;
-        location.pathname = path;
+        location.pathname = pathname;
+        location.search = {};
+        search
+          .substring(1)
+          .split("&")
+          .forEach((e) => {
+            const [key, value] = e.split("=");
+            location.search[key] = value;
+          });
       })
     );
   }, []);
 
+  useEffect(() => {
+    // 처음 path 기준 파싱해서데이터 입력
+    handlePath(location);
+  }, []);
+
   const match = () => {
+    // parsing 해줄 부분
     for (let element of children) {
       if (element.props.path === location.pathname) return element;
     }
