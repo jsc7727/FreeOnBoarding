@@ -16,7 +16,7 @@ const useRouter = () => {
     window.history.pushState(state, "", pathname);
     handlePath(location);
   };
-
+  
   return { push };
 };
 export default useRouter;

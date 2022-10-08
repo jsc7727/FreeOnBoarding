@@ -61,6 +61,10 @@ const Router = ({ children }: RouterPropsType) => {
   useEffect(() => {
     // 처음 path 기준 파싱해서데이터 입력
     handlePath(location);
+
+    window.onpopstate = () => {
+      handlePath(location);
+    };
   }, []);
 
   const match = () => {
