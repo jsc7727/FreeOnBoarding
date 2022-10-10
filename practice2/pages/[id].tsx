@@ -18,12 +18,7 @@ const PostPage: NextPage<PostPageProps> = ({ filename, attributes, content }) =>
   console.log(content);
   return (
     <div className="post">
-      <div>asdf</div>
-      <div>???{id}</div>
       <Content content={content}></Content>
-      {/* <Title meta={meta} />
-      <Content content={content ? content : ''} />
-      {meta.tags && <Tag tags={meta.tags} />} */}
     </div>
   );
 };
