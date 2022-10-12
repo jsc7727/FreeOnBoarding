@@ -4,7 +4,7 @@ categories:
   - VIM
 date: '2012-04-06'
 description: 설명을 적는 곳입니다
-slug: post2
+slug: post22
 tags:
   - .vimrc
   - plugins

@@ -1,4 +1,4 @@
-import frontMatter from 'front-matter';
+import frontMatter, { FrontMatterResult } from 'front-matter';
 
 export type AttributesType = {
   categories: string[];
@@ -13,6 +13,6 @@ export const getAttributesOfContent = (contents: string): AttributesType => {
   return frontMatter(contents).attributes as AttributesType;
 };
 
-export const getFrontMatterOfContent = (contents: string) => {
+export const getFrontMatterOfContent = (contents: string): FrontMatterResult<AttributesType> => {
   return frontMatter(contents);
 };

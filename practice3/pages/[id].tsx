@@ -3,17 +3,10 @@ import { FileType, getFile, getFileList } from 'common/fs';
 import { AttributesType, getAttributesOfContent, getFrontMatterOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
 import { markdownParser } from 'common/remark';
+import { SWRConfig } from 'swr';
 
 type PostPageProps = FileType & {
   attributes: AttributesType;
-};
-
-const PostPage: NextPage<PostPageProps> = ({ filename, attributes, content }) => {
-  return (
-    <div className="post">
-      <Content content={content}></Content>
-    </div>
-  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -32,9 +25,29 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const file = getFile(paramId);
     const { attributes, body } = getFrontMatterOfContent(file.content);
     const content = await markdownParser(body);
-    return { props: { filename: file.filename, attributes, content } };
+    return {
+      props: {
+        fallback: {
+          '/api/content': { filename: file.filename, attributes, content },
+        },
+      },
+    };
   }
-  return { props: {} };
+  return {
+    props: {
+      fallback: {
+        '/api/content': {},
+      },
+    },
+  };
+};
+
+const PostPage: NextPage<PostPageProps> = (props) => {
+  return (
+    <SWRConfig value={{ fallback: props }}>
+      <Content content={props.content}></Content>
+    </SWRConfig>
+  );
 };
 
 export default PostPage;
