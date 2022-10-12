@@ -1,20 +1,13 @@
-import { markdownParser } from 'common/remark';
-import { Suspense, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import useGetPost from 'hooks/SWR/useGetPost';
 
 type ContentProps = {
-  content: string;
+  slug: string;
 };
 
-const Content = ({ content }: ContentProps) => {
-  const { data } = useSWR<string, Error>('/api/content', () => content, { suspense: true });
-  console.log(data);
+const Content = ({ slug }: ContentProps) => {
+  const { data } = useGetPost({ slug });
 
-  return (
-    <Suspense fallback={<div>loading</div>}>
-      <div className="post__content" dangerouslySetInnerHTML={{ __html: data ?? '' }}></div>
-    </Suspense>
-  );
+  return <div className="post__content" dangerouslySetInnerHTML={{ __html: data?.content ?? '' }}></div>;
 };
 
 export default Content;

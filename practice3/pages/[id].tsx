@@ -1,12 +1,25 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { FileType, getFile, getFileList } from 'common/fs';
-import { AttributesType, getAttributesOfContent, getFrontMatterOfContent } from 'common/frontMatter';
+import { FileType, getFileList } from 'common/fs';
+import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
-import { markdownParser } from 'common/remark';
 import { SWRConfig } from 'swr';
+import axios from 'axios';
 
-type PostPageProps = FileType & {
-  attributes: AttributesType;
+type PostPageProps = {
+  slug: string;
+  fallback: {
+    [slug: string]: FileType & {
+      attributes: AttributesType;
+    };
+  };
+};
+
+const PostPage: NextPage<PostPageProps> = ({ slug, fallback }) => {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Content slug={slug}></Content>
+    </SWRConfig>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -20,34 +33,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const paramId = context.params?.id;
-  if (typeof paramId === 'string') {
-    const file = getFile(paramId);
-    const { attributes, body } = getFrontMatterOfContent(file.content);
-    const content = await markdownParser(body);
-    return {
-      props: {
-        fallback: {
-          '/api/content': { filename: file.filename, attributes, content },
+  const slug = context.params?.id;
+  console.log(slug);
+
+  if (typeof slug === 'string') {
+    try {
+      const { data } = await axios.get(`/api/getPost?slug=${slug}`);
+      console.log('server', data);
+      return {
+        props: {
+          slug,
+          fallback: {
+            '/api/getPost': data,
+          },
         },
-      },
-    };
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
   return {
     props: {
+      slug,
       fallback: {
-        '/api/content': {},
+        '/api/getPost': {},
       },
     },
   };
 };
-
-const PostPage: NextPage<PostPageProps> = (props) => {
-  return (
-    <SWRConfig value={{ fallback: props }}>
-      <Content content={props.content}></Content>
-    </SWRConfig>
-  );
-};
-
 export default PostPage;

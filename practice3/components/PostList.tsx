@@ -1,9 +1,5 @@
 import { AttributesType } from 'common/frontMatter';
-import { getFileList } from 'common/fs';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { title } from 'process';
-import { useEffect } from 'react';
 
 type PostListProps = {
   postList: AttributesType[];
