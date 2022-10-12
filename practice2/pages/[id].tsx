@@ -3,19 +3,20 @@ import { useRouter } from 'next/router';
 import { FileType, getFile, getFileList } from '@common/fs';
 import { AttributesType, getAttributesOfContent, getFrontMatterOfContent } from '@common/frontMatter';
 import Content from '@components/Content';
+import { markdownParser } from '@common/remark';
 
 type PostPageProps = FileType & {
   attributes: AttributesType;
 };
 
 const PostPage: NextPage<PostPageProps> = ({ filename, attributes, content }) => {
-  const router = useRouter();
-  const { id } = router.query;
-  console.log('asdf', filename);
-  console.log('');
-  console.log(attributes);
-  console.log('');
-  console.log(content);
+  // const router = useRouter();
+  // const { id } = router.query;
+  // console.log('asdf', filename);
+  // console.log('');
+  // console.log(attributes);
+  // console.log('');
+  // console.log(content);
   return (
     <div className="post">
       <Content content={content}></Content>
@@ -38,7 +39,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof paramId === 'string') {
     const file = getFile(paramId);
     const { attributes, body } = getFrontMatterOfContent(file.content);
-    return { props: { filename: file.filename, attributes, content: body } };
+    const content = await markdownParser(body);
+    return { props: { filename: file.filename, attributes, content } };
   }
   return { props: {} };
 };

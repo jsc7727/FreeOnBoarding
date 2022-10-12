@@ -6,16 +6,9 @@ type ContentProps = {
 };
 
 const Content = ({ content }: ContentProps) => {
-  const [text, setText] = useState<string>('');
-  useEffect(() => {
-    (async () => {
-      const res = await markdownParser(content);
-      setText(res);
-    })();
-  }, []);
   return (
     <>
-      <div className="post__content" dangerouslySetInnerHTML={{ __html: text }}></div>
+      <div className="post__content" dangerouslySetInnerHTML={{ __html: content }}></div>
     </>
   );
 };
