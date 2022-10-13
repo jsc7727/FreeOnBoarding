@@ -16,3 +16,9 @@ title: hello
 ## 예시입니다
 
 - 예시입니다
+
+```javascript
+const test = () => {
+  return 10000;
+};
+```

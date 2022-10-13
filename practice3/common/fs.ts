@@ -8,20 +8,25 @@ export type FileType = {
   content: string;
 };
 
-export const getPostFilenameList = () => {
-  return fs.readdirSync(path.resolve('./__posts'));
+export const getPostFilenameList = (category?: string) => {
+  return fs.readdirSync(path.resolve(`./__posts/${category}`));
 };
 
-export const getFileList = (): FileType[] => {
+export const getFileList = (category: string): FileType[] => {
   try {
-    return getPostFilenameList().map((filename) => ({
+    return getPostFilenameList(category).map((filename) => ({
       filename,
-      content: fs.readFileSync(`./__posts/${filename}`, 'utf-8'),
+      content: fs.readFileSync(`./__posts/${category}/${filename}`, 'utf-8'),
     }));
   } catch (error) {
+    console.log(error);
     return [];
   }
 };
+
+/**
+ * __posts 경로의 `filename`.md의 파일을 utf-8로 가져온다.
+ */
 
 export const getFile = (filename: string): FileType => {
   try {
@@ -31,9 +36,39 @@ export const getFile = (filename: string): FileType => {
   }
 };
 
-export const getFileOfSlug = (slug: string): FileType & { attributes?: AttributesType } => {
+type getAllFilesType = ReturnType<
+  (root: string) => { category: string; filename: string; path: string; content: string }[]
+>;
+export const getAllFiles = (root = `./__posts`): getAllFilesType => {
+  const result: getAllFilesType = [];
   try {
-    const res = getFileList()
+    const files = fs.readdirSync(root, 'utf-8');
+    for (const filename of files) {
+      const idDirectory = fs.lstatSync(root + '/' + filename).isDirectory();
+      if (idDirectory === true) {
+        result.push(...getAllFiles(root + '/' + filename));
+      } else {
+        const category = root.split('/').at(-1);
+        if (category !== undefined) {
+          result.push({
+            category,
+            filename,
+            path: root + '/' + filename,
+            content: fs.readFileSync(`${root}/${filename}`, 'utf-8'),
+          });
+        }
+      }
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getFileOfSlug = (category: string, slug: string): FileType & { attributes?: AttributesType } => {
+  try {
+    const res = getFileList(category)
       .map((e) => ({ ...e, attributes: getAttributesOfContent(e.content) }))
       .filter((e) => e.attributes.slug === slug);
     if (res.length === 0) throw 'res zero';

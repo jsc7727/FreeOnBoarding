@@ -2,15 +2,16 @@ import { AttributesType } from 'common/frontMatter';
 import Link from 'next/link';
 
 type PostListProps = {
+  category: string;
   postList: AttributesType[];
 };
 
-const PostList = ({ postList }: PostListProps) => {
+const PostList = ({ category, postList }: PostListProps) => {
   return (
     <div>
       {postList.map((e, idx) => {
         return (
-          <Link key={idx} href={`/${e.slug}`}>
+          <Link key={idx} href={`/${category}/${e.slug}`}>
             <a>
               <div>
                 <div>{`제목 : ${e.title}`}</div>

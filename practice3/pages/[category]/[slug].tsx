@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { FileType, getFileList } from 'common/fs';
+import { FileType, getAllFiles } from 'common/fs';
 import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
 import { SWRConfig } from 'swr';
@@ -23,23 +23,25 @@ const PostPage: NextPage<PostPageProps> = ({ slug, fallback }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getFileList().map((e) => {
-    return { params: { id: getAttributesOfContent(e.content)?.slug } };
+  const paths = getAllFiles().map(({ category, content }) => {
+    return { params: { category, slug: getAttributesOfContent(content)?.slug } };
   });
+  console.log(paths);
   return {
     paths,
     fallback: false,
   };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const slug = context.params?.id;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const slug = params?.slug;
+  const category = params?.category;
   console.log(slug);
+  console.log(category);
 
-  if (typeof slug === 'string') {
+  if (typeof slug === 'string' && typeof category === 'string') {
     try {
-      const { data } = await axios.get(`/api/getPost?slug=${slug}`);
-      console.log('server', data);
+      const { data } = await axios.get(`/api/getPost?category=${category}&slug=${slug}`);
       return {
         props: {
           slug,
