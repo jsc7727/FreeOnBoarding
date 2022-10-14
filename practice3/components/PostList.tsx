@@ -13,7 +13,7 @@ const PostList = ({ category, postList }: PostListProps) => {
     <Box p={10}>
       {postList.map((e, idx) => {
         return (
-          <Link href={`/${category}/${e.slug}`}>
+          <Link key={idx} href={`/${category}/${e.slug}`}>
             <a>
               <Card variant="outlined">
                 <Box>
