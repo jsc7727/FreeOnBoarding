@@ -7,6 +7,7 @@ import { getPost } from 'pages/api/getPost';
 
 type PostPageProps = {
   slug: string;
+  category: string;
   fallback: {
     [slug: string]: FileType & {
       attributes: AttributesType;
@@ -14,10 +15,10 @@ type PostPageProps = {
   };
 };
 
-const PostPage: NextPage<PostPageProps> = ({ slug, fallback }) => {
+const PostPage: NextPage<PostPageProps> = ({ slug, category, fallback }) => {
   return (
     <SWRConfig value={{ fallback }}>
-      <Content slug={slug}></Content>
+      <Content slug={slug} category={category}></Content>
     </SWRConfig>
   );
 };
@@ -39,6 +40,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         slug,
+        category,
         fallback: {
           '/api/getPost': await getPost(category, slug),
         },
@@ -49,6 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       slug,
+      category,
       fallback: {
         '/api/getPost': {},
       },

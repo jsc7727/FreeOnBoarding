@@ -4,7 +4,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export const getAllPostsOfCategory = (category: string) => {
   const files = getAllFiles(`./__posts/${category}`);
-  const postList: AttributesType[] = files.map(({ content }) => getAttributesOfContent(content));
+  const postList: AttributesType[] = files
+    .map(({ content }) => getAttributesOfContent(content))
+    .sort((a, b) => {
+      const left: number = new Date(a.date).getTime();
+      const right: number = new Date(b.date).getTime();
+      return right - left;
+    });
   return postList;
 };
 

@@ -5,16 +5,17 @@ import useSWR from 'swr';
 
 type useGetPostProps = {
   slug: string;
+  category: string;
 };
 type PostType = FileType & {
   attributes: AttributesType;
 };
 
-const useGetPost = ({ slug }: useGetPostProps) => {
+const useGetPost = ({ slug, category }: useGetPostProps) => {
   const { data, isValidating, error } = useSWR<PostType, Error>(
     '/api/getPost',
     async () => {
-      const { data } = await axios.get(`/api/getPost?slug=${slug}`);
+      const { data } = await axios.get(`/api/getPost?category=${category}&slug=${slug}`);
       return data;
     },
     {

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { SWRConfig } from 'swr';
 import Categories, { CategoryType } from '@components/Categories';
 import { getCategories } from './api/getCategories';
+import Header from '@components/Header';
 
 type HomeProps = {
   categories: CategoryType;

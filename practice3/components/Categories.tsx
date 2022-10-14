@@ -1,8 +1,5 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
-import axios from 'axios';
-import useGetData from 'hooks/SWR/useGetData';
 import Link from 'next/link';
-import useSWR from 'swr';
 
 export type CategoryType = { [category: string]: number };
 

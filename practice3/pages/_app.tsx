@@ -1,54 +1,26 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { css, Global } from '@emotion/react';
+import { css, EmotionCache } from '@emotion/react';
 import '@common/axios';
 import { AppBar, Toolbar } from '@mui/material';
-import Link from '@components/Link';
+import Link from 'next/link';
+import createEmotionCache from '@assets/theme/createEmotionCache';
+import Head from 'next/head';
+import PageProvider from '@components/helpers/PageProvider';
+import Header from '@components/Header';
 
-// import reset from '@styles/reset';
-// import '@styles/prism.css';
-// import '@styles/reset.css';
+const clientSideEmotionCache = createEmotionCache();
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
   return (
-    <>
-      {/* <Global
-        styles={css`
-          ${reset}
-        `}
-      ></Global> */}
-      <AppBar
-        position="fixed"
-        css={css`
-          background: white;
-          background-color: black;
-        `}
-      >
-        <Toolbar>
-          <Link
-            href="/"
-            css={css`
-              text-decoration: none;
-              &:link {
-                color: white;
-                text-decoration: none;
-              }
-              &:visited {
-                color: black;
-                text-decoration: none;
-              }
-              &:hover {
-                color: ${'gray'};
-              }
-            `}
-          >
-            eclipse
-          </Link>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
+    <PageProvider emotionCache={emotionCache}>
+      <Header></Header>
       <Component {...pageProps} />
-    </>
+    </PageProvider>
   );
 }
 
