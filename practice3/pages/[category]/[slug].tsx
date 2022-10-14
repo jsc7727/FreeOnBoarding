@@ -3,7 +3,6 @@ import { FileType, getAllFiles } from 'common/fs';
 import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
 import { SWRConfig } from 'swr';
-import axios from 'axios';
 import { getPost } from 'pages/api/getPost';
 
 type PostPageProps = {

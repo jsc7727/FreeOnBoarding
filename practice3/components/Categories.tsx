@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import useGetData from 'hooks/SWR/useGetData';
 import Link from 'next/link';
@@ -8,7 +8,10 @@ export type CategoryType = { [category: string]: number };
 
 const Categories = ({ categories }: { categories: CategoryType }) => {
   return (
-    <div>
+    <Box p={10}>
+      <Box pt={5} pb={5} fontSize={30}>
+        카테고리
+      </Box>
       <Grid container justifyItems="center" spacing={3}>
         {Object.entries(categories).map(([category, count]) => {
           return (
@@ -34,7 +37,7 @@ const Categories = ({ categories }: { categories: CategoryType }) => {
           );
         })}
       </Grid>
-    </div>
+    </Box>
   );
 };
 export default Categories;

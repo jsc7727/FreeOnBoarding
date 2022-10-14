@@ -1,7 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { getAllFiles } from 'common/fs';
 import { AttributesType } from 'common/frontMatter';
-import axios from 'axios';
 import PostList from '@components/PostList';
 import { getAllPostsOfCategory } from 'pages/api/getAllPostsOfCategory';
 
