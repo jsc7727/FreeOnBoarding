@@ -19,7 +19,7 @@ export const getFileList = (category: string): FileType[] => {
       content: fs.readFileSync(`./__posts/${category}/${filename}`, 'utf-8'),
     }));
   } catch (error) {
-    console.log(error);
+    console.log('error of fs.getFileList');
     return [];
   }
 };
@@ -61,7 +61,7 @@ export const getAllFiles = (root = `./__posts`): getAllFilesType => {
     }
     return result;
   } catch (error) {
-    console.log(error);
+    console.log('error of fs.getAllFiles');
     return [];
   }
 };

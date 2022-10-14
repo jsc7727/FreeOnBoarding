@@ -4,6 +4,7 @@ import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
 import { SWRConfig } from 'swr';
 import axios from 'axios';
+import { getPost } from 'pages/api/getPost';
 
 type PostPageProps = {
   slug: string;
@@ -22,11 +23,11 @@ const PostPage: NextPage<PostPageProps> = ({ slug, fallback }) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = getAllFiles().map(({ category, content }) => {
     return { params: { category, slug: getAttributesOfContent(content)?.slug } };
   });
-  console.log(paths);
+  console.log('paths', paths);
   return {
     paths,
     fallback: false,
@@ -36,23 +37,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug;
   const category = params?.category;
-  console.log(slug);
-  console.log(category);
+  console.log('slug [slug].tsx', slug);
+  console.log('category [slug].tsx', category);
 
   if (typeof slug === 'string' && typeof category === 'string') {
-    try {
-      const { data } = await axios.get(`/api/getPost?category=${category}&slug=${slug}`);
-      return {
-        props: {
-          slug,
-          fallback: {
-            '/api/getPost': data,
-          },
+    return {
+      props: {
+        slug,
+        fallback: {
+          '/api/getPost': await getPost(category, slug),
         },
-      };
-    } catch (error) {
-      console.log(error);
-    }
+      },
+      revalidate: 600,
+    };
   }
   return {
     props: {
@@ -61,6 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         '/api/getPost': {},
       },
     },
+    revalidate: 600,
   };
 };
 export default PostPage;

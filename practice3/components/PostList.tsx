@@ -7,6 +7,9 @@ type PostListProps = {
 };
 
 const PostList = ({ category, postList }: PostListProps) => {
+  if (postList === undefined) {
+    return <div>undefined postList</div>;
+  }
   return (
     <div>
       {postList.map((e, idx) => {

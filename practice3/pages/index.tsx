@@ -1,54 +1,28 @@
-import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
-import { FileType, getAllFiles, getFileList } from 'common/fs';
-import PostList from '@components/PostList';
-import type { GetStaticProps, NextPage } from 'next';
-import Head from 'next/head';
+import { AttributesType } from 'common/frontMatter';
+import { FileType } from 'common/fs';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import axios from 'axios';
 import { SWRConfig } from 'swr';
-import Categories from '@components/Categories';
+import Categories, { CategoryType } from '@components/Categories';
+import { getCategories } from './api/getCategories';
 
 type HomeProps = {
-  fallback: {
-    [slug: string]: FileType & {
-      attributes: AttributesType;
-    };
-  };
+  categories: CategoryType;
 };
 
-const Home: NextPage<HomeProps> = ({ fallback }) => {
+const Home: NextPage<HomeProps> = ({ categories }) => {
   return (
     <div className={styles.container}>
-      <div>header</div>
-      <SWRConfig value={fallback}>
-        <Categories></Categories>
-      </SWRConfig>
-      <div>main</div>
-      <footer className={styles.footer}></footer>
+      <Categories categories={categories}></Categories>
     </div>
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  // const files = getAllFiles('./__posts');
-  // const postList: AttributesType[] = files.map(({ content }) => getAttributesOfContent(content));
-  try {
-    const { data } = await axios.get(`/api/getCategories`);
-    return {
-      props: {
-        fallback: {
-          '/api/getCategories': data,
-        },
-      },
-    };
-  } catch (error) {
-    console.log(error);
-  }
+export const getStaticProps: GetStaticProps = () => {
   return {
     props: {
-      fallback: {
-        '/api/getCategories': {},
-      },
+      categories: getCategories(),
     },
   };
 };

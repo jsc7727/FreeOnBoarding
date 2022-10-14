@@ -3,6 +3,7 @@ import { getAllFiles } from 'common/fs';
 import { AttributesType } from 'common/frontMatter';
 import axios from 'axios';
 import PostList from '@components/PostList';
+import { getAllPostsOfCategory } from 'pages/api/getAllPostsOfCategory';
 
 type CategoryPageProps = {
   category: string;
@@ -13,8 +14,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, postList }) => {
   return <PostList category={category} postList={postList}></PostList>;
 };
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-  console.log(context);
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = getAllFiles().map(({ category }) => {
     return { params: { category } };
   });
@@ -24,26 +24,24 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = (context) => {
   const category = context.params?.category;
   if (typeof category === 'string') {
-    try {
-      const { data: postList } = await axios.get(`/api/getCategory?category=${category}`);
-      return {
-        props: {
-          category,
-          postList,
-        },
-      };
-    } catch (error) {
-      console.log(error);
-    }
+    return {
+      props: {
+        category,
+        postList: getAllPostsOfCategory(category),
+      },
+      revalidate: 600,
+    };
+  } else {
+    return {
+      props: {
+        category,
+        postList: [],
+      },
+      revalidate: 600,
+    };
   }
-  return {
-    props: {
-      category,
-      postList: [],
-    },
-  };
 };
 export default CategoryPage;

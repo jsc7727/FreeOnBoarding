@@ -1,26 +1,40 @@
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import axios from 'axios';
+import useGetData from 'hooks/SWR/useGetData';
 import Link from 'next/link';
 import useSWR from 'swr';
 
-type CategoryType = { [category: string]: number };
+export type CategoryType = { [category: string]: number };
 
-const Categories = () => {
-  const { data } = useSWR('/api/getCategories', async () => (await axios.get('/api/getCategories')).data, {
-    suspense: true,
-  });
-
+const Categories = ({ categories }: { categories: CategoryType }) => {
   return (
     <div>
-      {Object.entries(data as CategoryType).map(([category, count]) => {
-        return (
-          <Link key={category} href={`/${category}`}>
-            <div>
-              <div>{category}</div>
-              <div>{count}</div>
-            </div>
-          </Link>
-        );
-      })}
+      <Grid container justifyItems="center" spacing={3}>
+        {Object.entries(categories).map(([category, count]) => {
+          console.log(category);
+          return (
+            <Grid key={category} item xs={6} md={3}>
+              <Link href={`/${category}`}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`/images/categoryImage/${category}.jpg`}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div" align="center">
+                        {category}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
+            </Grid>
+          );
+        })}
+      </Grid>
     </div>
   );
 };
