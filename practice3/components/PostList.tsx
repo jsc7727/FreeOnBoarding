@@ -1,4 +1,4 @@
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Card, Chip, css, Stack } from '@mui/material';
 import { AttributesType } from 'common/frontMatter';
 import Link from 'next/link';
 
@@ -13,9 +13,9 @@ const PostList = ({ category, postList }: PostListProps) => {
     <Box p={10}>
       {postList.map((e, idx) => {
         return (
-          <Box key={idx} mx={12} mt={3} mb={3} sx={{ borderColor: 'primary.main' }}>
-            <Link href={`/${category}/${e.slug}`}>
-              <a>
+          <Link href={`/${category}/${e.slug}`}>
+            <a>
+              <Card variant="outlined">
                 <Box>
                   <Box>{`제목 : ${e.title}`}</Box>
                   <Box>`설명 ${e.description}`</Box>
@@ -26,9 +26,9 @@ const PostList = ({ category, postList }: PostListProps) => {
                   </Stack>
                   <Box>{`날짜 : ${e.date}`}</Box>
                 </Box>
-              </a>
-            </Link>
-          </Box>
+              </Card>
+            </a>
+          </Link>
         );
       })}
     </Box>

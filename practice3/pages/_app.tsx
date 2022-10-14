@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { css, Global } from '@emotion/react';
 import '@common/axios';
 import { AppBar, Toolbar } from '@mui/material';
+import Link from '@components/Link';
 
 // import reset from '@styles/reset';
 // import '@styles/prism.css';
@@ -21,12 +22,29 @@ function MyApp({ Component, pageProps }: AppProps) {
         css={css`
           background: white;
           background-color: black;
-          &:hover {
-            color: ${'gray'};
-          }
         `}
       >
-        <Toolbar>eclipse</Toolbar>
+        <Toolbar>
+          <Link
+            href="/"
+            css={css`
+              text-decoration: none;
+              &:link {
+                color: white;
+                text-decoration: none;
+              }
+              &:visited {
+                color: black;
+                text-decoration: none;
+              }
+              &:hover {
+                color: ${'gray'};
+              }
+            `}
+          >
+            eclipse
+          </Link>
+        </Toolbar>
       </AppBar>
       <Toolbar />
       <Component {...pageProps} />
