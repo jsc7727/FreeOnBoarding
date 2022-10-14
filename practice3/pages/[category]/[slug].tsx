@@ -27,7 +27,6 @@ export const getStaticPaths: GetStaticPaths = () => {
   const paths = getAllFiles().map(({ category, content }) => {
     return { params: { category, slug: getAttributesOfContent(content)?.slug } };
   });
-  console.log('paths', paths);
   return {
     paths,
     fallback: false,
@@ -37,9 +36,6 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug;
   const category = params?.category;
-  console.log('slug [slug].tsx', slug);
-  console.log('category [slug].tsx', category);
-
   if (typeof slug === 'string' && typeof category === 'string') {
     return {
       props: {

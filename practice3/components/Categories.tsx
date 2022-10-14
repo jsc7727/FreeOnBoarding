@@ -11,7 +11,6 @@ const Categories = ({ categories }: { categories: CategoryType }) => {
     <div>
       <Grid container justifyItems="center" spacing={3}>
         {Object.entries(categories).map(([category, count]) => {
-          console.log(category);
           return (
             <Grid key={category} item xs={6} md={3}>
               <Link href={`/${category}`}>
