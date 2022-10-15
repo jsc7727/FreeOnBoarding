@@ -1,17 +1,17 @@
+import { AttributesType } from '@common/frontMatter';
+import { FileType } from '@common/fs';
 import { Box } from '@mui/material';
-import useGetPost from 'hooks/SWR/useGetPost';
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
 
-type ContentProps = {
-  slug: string;
-  category: string;
+export type PostType = FileType & {
+  attributes: AttributesType;
 };
 
-const Content = ({ category, slug }: ContentProps) => {
-  const { data } = useGetPost({ category, slug });
-  // if (data === undefined) {
-  //   return <div>undefined</div>;
-  // }
-  return <Box pl={5} pr={5} className="post__content" dangerouslySetInnerHTML={{ __html: data?.content ?? '' }}></Box>;
+const Content = () => {
+  const { category, slug } = useRouter().query;
+  const { data: post } = useSWR<PostType>(['post', category, slug]);
+  return <Box pl={5} pr={5} className="post__content" dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}></Box>;
 };
 
 export default Content;

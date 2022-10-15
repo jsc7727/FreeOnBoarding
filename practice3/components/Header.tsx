@@ -11,7 +11,7 @@ const Header = () => {
             justify-content: space-between;
           `}
         >
-          <Link href="/">eclipse</Link>
+          <Link href="/">TECH Series</Link>
           <ThemeToggle></ThemeToggle>
         </Toolbar>
       </AppBar>

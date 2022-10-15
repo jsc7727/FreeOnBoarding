@@ -1,5 +1,6 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, CardMedia, Chip, css, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export type CategoryType = { [category: string]: number };
 
@@ -16,16 +17,35 @@ const Categories = ({ categories }: { categories: CategoryType }) => {
               <Link href={`/${category}`}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardActionArea>
-                    <CardMedia
+                    {/* <CardMedia
                       component="img"
                       height="140"
                       image={`/images/categoryImage/${category}.jpg`}
                       alt="green iguana"
+                    /> */}
+                    <Image
+                      src={`/images/categoryImage/${category}.jpg`}
+                      alt={category}
+                      width={345}
+                      height={200}
+                      priority
+                      css={css`
+                        object-fit: cover;
+                      `}
                     />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div" align="center">
+                    <CardContent
+                      css={css`
+                        display: flex;
+                        flex-direction: row;
+                        place-content: center;
+                        align-items: center;
+                        gap: 10px;
+                      `}
+                    >
+                      <Typography variant="h5" component="div" align="center">
                         {category}
                       </Typography>
+                      <Chip label={count} size="small" />
                     </CardContent>
                   </CardActionArea>
                 </Card>

@@ -24,23 +24,14 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = (context) => {
-  const category = context.params?.category;
-  if (typeof category === 'string') {
-    return {
-      props: {
-        category,
-        postList: getAllPostsOfCategory(category),
-      },
-      revalidate: 600,
-    };
-  } else {
-    return {
-      props: {
-        category,
-        postList: [],
-      },
-      revalidate: 600,
-    };
-  }
+  const category = context.params?.category as string;
+  const postList = getAllPostsOfCategory(category);
+  return {
+    props: {
+      category,
+      postList,
+    },
+    revalidate: 6000,
+  };
 };
 export default CategoryPage;

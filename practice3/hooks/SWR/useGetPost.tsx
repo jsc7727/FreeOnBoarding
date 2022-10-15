@@ -11,15 +11,19 @@ type PostType = FileType & {
   attributes: AttributesType;
 };
 
-const useGetPost = ({ slug, category }: useGetPostProps) => {
-  const { data, isValidating, error } = useSWR<PostType, Error>(
-    '/api/getPost',
+const useGetPost = <T,>({ category, slug }: useGetPostProps) => {
+  const { data, isValidating, error } = useSWR<T, Error>(
+    ['post', category, slug],
     async () => {
-      const { data } = await axios.get(`/api/getPost?category=${category}&slug=${slug}`);
-      return data;
+      try {
+        const { data } = await axios.get(`/api/getPost?category=${category}&slug=${slug}`);
+        return data;
+      } catch (error) {
+        return {};
+      }
     },
     {
-      suspense: true,
+      suspense: false,
     },
   );
   return { data, isValidating, error };

@@ -64,7 +64,10 @@ export const getAllFiles = (root = `./__posts`): getAllFilesType => {
   }
 };
 
-export const getFileOfSlug = (category: string, slug: string): FileType & { attributes?: AttributesType } => {
+export const getFileByCategoryAndSlug = (
+  category: string,
+  slug: string,
+): FileType & { attributes?: AttributesType } => {
   try {
     const res = getFileList(category)
       .map((e) => ({ ...e, attributes: getAttributesOfContent(e.content) }))

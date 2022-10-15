@@ -1,12 +1,7 @@
-import { AttributesType } from 'common/frontMatter';
-import { FileType } from 'common/fs';
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import styles from '../styles/Home.module.css';
-import axios from 'axios';
-import { SWRConfig } from 'swr';
 import Categories, { CategoryType } from '@components/Categories';
 import { getCategories } from './api/getCategories';
-import Header from '@components/Header';
 
 type HomeProps = {
   categories: CategoryType;
@@ -21,9 +16,10 @@ const Home: NextPage<HomeProps> = ({ categories }) => {
 };
 
 export const getStaticProps: GetStaticProps = () => {
+  const categories = getCategories();
   return {
     props: {
-      categories: getCategories(),
+      categories,
     },
   };
 };

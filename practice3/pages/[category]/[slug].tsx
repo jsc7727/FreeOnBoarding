@@ -1,26 +1,17 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { FileType, getAllFiles } from 'common/fs';
-import { AttributesType, getAttributesOfContent } from 'common/frontMatter';
+import { getAllFiles } from 'common/fs';
+import { getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
-import { SWRConfig } from 'swr';
+import useSWR, { unstable_serialize } from 'swr';
 import { getPost } from 'pages/api/getPost';
+import { AttributesType } from '@common/frontMatter';
+import { FileType } from '@common/fs';
+import { useRouter } from 'next/router';
+import Loading from '@components/Loading';
+import { Suspense } from 'react';
 
-type PostPageProps = {
-  slug: string;
-  category: string;
-  fallback: {
-    [slug: string]: FileType & {
-      attributes: AttributesType;
-    };
-  };
-};
-
-const PostPage: NextPage<PostPageProps> = ({ slug, category, fallback }) => {
-  return (
-    <SWRConfig value={{ fallback }}>
-      <Content slug={slug} category={category}></Content>
-    </SWRConfig>
-  );
+const PostPage: NextPage = () => {
+  return <Content></Content>;
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -34,29 +25,16 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params?.slug;
-  const category = params?.category;
-  if (typeof slug === 'string' && typeof category === 'string') {
-    return {
-      props: {
-        slug,
-        category,
-        fallback: {
-          '/api/getPost': await getPost(category, slug),
-        },
-      },
-      revalidate: 600,
-    };
-  }
+  const slug = params?.slug as string;
+  const category = params?.category as string;
+  const post = await getPost(category, slug);
   return {
     props: {
-      slug,
-      category,
       fallback: {
-        '/api/getPost': {},
+        [unstable_serialize(['post', category, slug])]: post,
       },
     },
-    revalidate: 600,
+    revalidate: 6000,
   };
 };
 export default PostPage;
