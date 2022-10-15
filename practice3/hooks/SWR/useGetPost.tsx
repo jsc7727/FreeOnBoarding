@@ -7,9 +7,6 @@ type useGetPostProps = {
   slug: string;
   category: string;
 };
-type PostType = FileType & {
-  attributes: AttributesType;
-};
 
 const useGetPost = <T,>({ category, slug }: useGetPostProps) => {
   const { data, isValidating, error } = useSWR<T, Error>(

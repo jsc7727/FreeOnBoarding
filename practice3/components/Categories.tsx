@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Chip, css, Grid, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Chip, css, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -17,12 +17,6 @@ const Categories = ({ categories }: { categories: CategoryType }) => {
               <Link href={`/${category}`}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardActionArea>
-                    {/* <CardMedia
-                      component="img"
-                      height="140"
-                      image={`/images/categoryImage/${category}.jpg`}
-                      alt="green iguana"
-                    /> */}
                     <Image
                       src={`/images/categoryImage/${category}.jpg`}
                       alt={category}

@@ -2,6 +2,7 @@
 categories:
   - SWR
 date: '2022-10-14'
+readTime: '10'
 description: server state, client state
 slug: state-관리
 tags:

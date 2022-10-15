@@ -3,6 +3,7 @@ import frontMatter, { FrontMatterResult } from 'front-matter';
 export type AttributesType = {
   categories: string[];
   date: string;
+  readTime: string;
   description: string;
   slug: string;
   tags: string[];

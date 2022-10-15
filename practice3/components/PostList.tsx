@@ -1,6 +1,7 @@
-import { Box, Card, Chip, css, Stack, Typography } from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import { AttributesType } from 'common/frontMatter';
 import Link from 'next/link';
+import Time from './Time';
 
 type PostListProps = {
   category: string;
@@ -18,14 +19,14 @@ const PostList = ({ category, postList }: PostListProps) => {
           <Link key={idx} href={`/${category}/${e.slug}`}>
             <a>
               <Box mt={1} mb={2} p={3} sx={{ border: 1, borderRadius: '15px', margin: '10px' }}>
-                <Box>{`제목 : ${e.title}`}</Box>
-                <Box>`설명 ${e.description}`</Box>
+                <Typography variant="h4">{`${e.title}`}</Typography>
+                <Time date={e.date} readTime={e.readTime}></Time>
+                <Typography variant="h6">{e.description}</Typography>
                 <Stack direction="row" justifyContent="flex-start" spacing={1}>
                   {e.tags.map((tag) => (
                     <Chip key={tag} label={tag} size="small" />
                   ))}
                 </Stack>
-                <Box textAlign={'end'}>{`날짜 : ${e.date}`}</Box>
               </Box>
             </a>
           </Link>

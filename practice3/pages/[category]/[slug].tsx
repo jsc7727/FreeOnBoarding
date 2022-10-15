@@ -2,13 +2,8 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { getAllFiles } from 'common/fs';
 import { getAttributesOfContent } from 'common/frontMatter';
 import Content from '@components/Content';
-import useSWR, { unstable_serialize } from 'swr';
+import { unstable_serialize } from 'swr';
 import { getPost } from 'pages/api/getPost';
-import { AttributesType } from '@common/frontMatter';
-import { FileType } from '@common/fs';
-import { useRouter } from 'next/router';
-import Loading from '@components/Loading';
-import { Suspense } from 'react';
 
 const PostPage: NextPage = () => {
   return <Content></Content>;

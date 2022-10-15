@@ -1,4 +1,4 @@
-import { AppBar, css, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, css, Toolbar } from '@mui/material';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
 

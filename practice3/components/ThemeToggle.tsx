@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Button, css, MenuItem, Select, Typography } from '@mui/material';
+import { Button, css } from '@mui/material';
 import { useTheme } from 'next-themes';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const ThemeToggle = () => {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
