@@ -15,7 +15,7 @@ title: useThree
 
 ❌ 틀린 사용법
 
-```js
+```javascript
 import { useThree } from '@react-three/fiber'
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
 
 ✅ 올바른 사용법
 
-```js
+```javascript
 function Foo() {
   const { size } = useThree()
   ...
@@ -44,7 +44,7 @@ function App() {
 useThree를 사용하면 기본 렌더러, scene, 카메라 등의 상태에 접근 할 수 있습니다.
 또한 캔버스 스크린과 뷰포트의 좌표의 현재 사이즈를 제공합니다.
 
-```js
+```javascript
 import { useThree } from '@react-three/fiber'
 
 function Foo() {
@@ -67,7 +67,7 @@ useThree는 반응형입니다.
 
 `반응성에는 더 깊은 three.js 내부가 포함되지 않습니다!`
 
-```js
+```javascript
 // 카메라가 교체될 때
 const camera = useThree((state) => state.camera);
 // viewport가 리사이징 될 때
@@ -78,7 +78,7 @@ const zoom = useThree((state) => state.camera.zoom);
 
 ## Reading
 
-```js
+```javascript
 function Foo() {
   const get = useThree((state) => state.get)
   ...
@@ -87,7 +87,7 @@ function Foo() {
 
 ## defaults 값 교환
 
-```js
+```javascript
 function Foo() {
   const set = useThree((state) => state.set)
   ...
