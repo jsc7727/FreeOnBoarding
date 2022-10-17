@@ -12,13 +12,6 @@ tags:
 title: sitemap 이란?
 ---
 
-## 목차
-
-- [sitemap (구글 기준)](#sitemap-구글-기준)
-- [sitemap 이 필요한 이유](#sitemap-이-필요한-이유)
-
----
-
 # sitemap (구글 기준)
 
 Google과 같은 검색엔진은 이 파일을 읽고 사이트를 더 효율적으로 크롤링합니다.

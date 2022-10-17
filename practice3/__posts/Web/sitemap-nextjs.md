@@ -4,7 +4,7 @@ categories:
 date: '2022-10-18'
 readTime: '3'
 description: nextjs에서 sitemap을 적용해보자
-slug: sitemap
+slug: nextjs-sitemap
 tags:
   - Web
   - sitemap

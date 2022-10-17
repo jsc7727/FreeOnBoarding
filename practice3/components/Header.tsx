@@ -9,6 +9,7 @@ const Header = () => {
         <Toolbar
           css={css`
             justify-content: space-between;
+            opacity: 0.9;
           `}
         >
           <Link href="/">TECH Series</Link>
