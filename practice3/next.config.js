@@ -5,14 +5,6 @@ const nextConfig = {
   images: {
     domains: ['http://localhost:3000', '/'],
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/sitemap.xml',
-  //       destination: '/api/sitemap',
-  //     },
-  //   ];
-  // },
 };
 
 module.exports = nextConfig;

@@ -15,11 +15,33 @@ title: nextjs에서 sitemap을 적용하기
 
 - [next-sitemap](#next-sitemap)
 - [page/sitemap에 getServerSideProps 사용하여 구현](#pagesitemap에-getserversideprops-사용하여-구현)
-- [[api로 구현]](#api로-구현)
+- [api로 구현](#api로-구현)
 
 # next-sitemap
 
 [🔗](https://www.npmjs.com/package/next-sitemap#installation)
+
+루트 최상위 경로에 next-sitemap.config.js 파일을 생성 후 아래 내용 추가
+
+```javascript
+// next-sitemap.config.js
+/** @type {import('next-sitemap').IConfig} */
+module.exports = {
+  siteUrl: process.env.SITE_URL || 'https://example.com',
+  generateRobotsTxt: true, // (optional)
+  // ...other options
+};
+```
+
+package.json 에 추가하기
+
+```javascript
+// package.json
+{
+  "build": "next build",
+  "postbuild": "next-sitemap"
+}
+```
 
 # page/sitemap에 getServerSideProps 사용하여 구현
 
@@ -77,7 +99,7 @@ export async function getServerSideProps({ res }) {
 export default SiteMap;
 ```
 
-# [api로 구현]
+# api로 구현
 
 [🔗](https://vercel.com/guides/how-do-i-generate-a-sitemap-for-my-nextjs-app-on-vercel)
 
